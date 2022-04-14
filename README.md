@@ -69,4 +69,40 @@ Under "SPONSORS ADD INFO HERE" heading below, include the following:
 
 This repo will be made public before the start of the contest. (C4 delete this line when made public)
 
-[ ⭐️ SPONSORS ADD INFO HERE ]
+| Glossary| |
+|-------------------------------|------------------------------------------------------|
+| BP | Base points = 10000 - not to be confused with basis points |
+| vTokens| Vault tokens that are created for each asset in a vault|
+| NAV| Net Asset Value - the summation of the value of each token within an index |
+| Managed Index| An index where the creator can control weights and assets |
+| Tracked Index| An index where assets are immutable after creation but weights change based on stored/updated capitalisation data |
+| TopN Index | An index where both weights and assets are programmtically decided based on a categories contract |
+
+# Contest Scope
+Representatives from Phuture will be available in the Code Arena Discord to answer any questions during the contest period. The focus for the contest is to try and find any logic errors or ways to drain funds from the protocol in a way that is advantageous for an attacker at the expense of users with funds invested in the protocol. Wardens should assume that governance variables are set sensibly (unless they can find a way to change the value of a governance variable, and not counting social engineering approaches for this). 
+
+# Protocol Overview
+Phuture is an asset management protocol initially focused on crypto index products.
+
+Our protocol provides the functionality to mint, redeem and create index products. We utilise a vault design to store the underlying assets of the index and these vaults can have additional "controllers" added to them to support extra functionality or strategies. At launch we have integrated a yearn vault controller that allows us to move some of the index funds over to yearn to earn additional interest. vTokens are created for  each token held in a vault and allow us to account for assets which are held in our contracts plus the contracts of other protocols (such as yearn).
+
+Rebalancing of these indices is executed against the liquidity held on Uniswap v2 and Sushiswap. Our contracts create a set of orders for each index that will bring that index back to it's correct balance. These orders are then executed by our keeper. In most cases, orders are too large to execute in one go due to price impact, so our smart contracts scale the orders down to adhere to a specific price impact.
+
+Fees are taken during the minting and redemption process. In addition, we charge a fee annually for the management of the index products. 
+
+The protocol's base curreency is USDC and as such the net asset value of each index is calculated in USDC. 
+
+
+# Smart Contracts
+All the contracts in this section are to be reviewed. Any contracts not in this list are to be ignored for this contest.
+
+# Potential Protocol concerns
+
+
+# Areas of concern for Wardens
+We would like wardens to focus on any core functional logic, boundary case errors or similar issues which could be utilized by an attacker to take funds away from clients who have funds deposited in the protocol. That said any errors may be submitted by wardens for review and potential reward as per the normal issue impact prioritization. Gas optimizations are welcome but not the main focus of this contest and thus at most 10% of the contest reward will be allocated to gas optimizations. For gas optimizations the most important flows are client deposit and withdrawal flows.
+
+If wardens are unclear on which areas to look at or which areas are important please feel free to ask in the contest Discord channel.
+
+
+
