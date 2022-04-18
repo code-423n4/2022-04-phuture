@@ -80,7 +80,8 @@ The protocol's base curreency is USDC and as such the net asset value of each in
 
 
 # Smart Contracts
-> All the contracts in this section are to be reviewed. Any contracts not in this list are to be ignored for this contest.
+> Each of the contracts, interfaces and libraries in the [/contracts](/contracts) folder is documented in detail with NatSpec. 
+> We recommend that you familiarize yourself with each of the files before or during the contest.
 
 
 | Name | Type | Description | Lines of code |
@@ -124,6 +125,3 @@ The protocol's base curreency is USDC and as such the net asset value of each in
 We would like wardens to focus on any core functional logic, boundary case errors or similar issues which could be utilized by an attacker to take funds away from clients who have funds deposited in the protocol. That said any errors may be submitted by wardens for review and potential reward as per the normal issue impact prioritization. Gas optimizations are welcome but not the main focus of this contest and thus at most 10% of the contest reward will be allocated to gas optimizations. For gas optimizations the most important flows are client deposit and withdrawal flows.
 
 If wardens are unclear on which areas to look at or which areas are important please feel free to ask in the contest Discord channel.
-
-
-
