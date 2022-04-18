@@ -109,6 +109,29 @@ The protocol's base curreency is USDC and as such the net asset value of each in
 | [UniswapV2PriceOracle](/contracts/UniswapV2PriceOracle.sol) | Contract | Contains logic for price calculation of asset using Uniswap V2 Pair. Oracle works through base asset which is set in initialize function. It uses UniswapV2OracleLibrary (from [uniswap/v2-periphery](https://github.com/Uniswap/v2-periphery) repo) | 65 |
 | [vToken](/contracts/vToken.sol) | Contract | Contains logic for index's asset management. It uses NAV library to track contract shares between indexes | 141 |
 
+# Index evaluation flow
+1. Index tokens are ERC20 tokens minted by index smart contract
+2. Set initial amount of index tokens to zero: TotalIndexTokenMinted = 0
+3. One assumes that all prices needed for calculations can be provided using price oracles
+4. Depositing. Whenever assets are deposited into an index, index tokens are minted and sent to the depositor’s address
+5. The amount deposited for the purpose of minting an index token is equal to DepositedAssetValue
+6. Calculate price of the index tokens: 
+    IndexTokenPrice = 1 USD if the depositor is an index creator or;
+    IndexTokenPrice = ( SumOverIndexAssets( AssetPrice[index] * AssetAmount[index])) / TotalIndexTokenMinted
+7. Calculate the amount of index tokens: IndexTokenAmount = DepositedAssetValue / IndexTokenPrice 
+8. Update the amount of circulating index tokens: TotalIndexTokenMinted += IndexTokenAmount
+9. Emit Mint event
+10. Redeeming. To redeem the underlying assets, depositors must “burn” their index tokens, effectively exchanging them for their share of the reserves
+11. Received index tokens are burned and TotalIndexTokenMinted is corrected by the amount of the received tokens: TotalIndexTokenMinted -= IndexTokenAmount
+12. Emit Burn event
+
+- If the index is a marketcap index then one should recalculate weights every given time interval (such as 1 month) to recompute the shares minted for an index’s tokens:
+1. User calls Recalculate shares method;
+2. Calculate current USDC value of a market cap index using available shares and the respective asset price.
+3. Recalculate token weights of a market cap index using its USDC value and updated underlying asset market capitalizations. One should use the same method as for regular index’s token shares calculation;
+4. Change tokens’ shares after recalculation;
+
+
 # Potential Protocol concerns
 - Minting - minted share accounting
 - Burning - burned share accounting
