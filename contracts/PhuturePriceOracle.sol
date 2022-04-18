@@ -4,6 +4,7 @@ pragma solidity >=0.8.7;
 
 import "@openzeppelin/contracts/access/IAccessControl.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 
 import "./libraries/FixedPoint112.sol";
 
@@ -11,12 +12,10 @@ import "./interfaces/IPriceOracle.sol";
 import "./interfaces/IIndexRegistry.sol";
 import "./interfaces/IPhuturePriceOracle.sol";
 
-import "./BaseFeeGasPriceOracle.sol";
-
 /// @title Phuture price oracle
 /// @notice Aggregates all price oracles and works with them through IPriceOracle interface
-contract PhuturePriceOracle is IPhuturePriceOracle, BaseFeeGasPriceOracle {
-    using ERC165CheckerUpgradeable for address;
+contract PhuturePriceOracle is IPhuturePriceOracle {
+    using ERC165Checker for address;
 
     /// @notice Role allows configure asset related data/components
     bytes32 private constant ASSET_MANAGER_ROLE = keccak256("ASSET_MANAGER_ROLE");
@@ -40,18 +39,12 @@ contract PhuturePriceOracle is IPhuturePriceOracle, BaseFeeGasPriceOracle {
         _;
     }
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() initializer {}
-
-    /// @inheritdoc IPhuturePriceOracle
-    function initialize(address _registry, address _base) external override initializer {
+    constructor(address _registry, address _base) {
         bytes4[] memory interfaceIds = new bytes4[](2);
         interfaceIds[0] = type(IAccessControl).interfaceId;
         interfaceIds[1] = type(IIndexRegistry).interfaceId;
         require(_registry.supportsAllInterfaces(interfaceIds), "PhuturePriceOracle: INTERFACE");
         require(_base != address(0), "PhuturePriceOracle: ZERO");
-
-        __BaseFeeGasPriceOracle_init();
 
         base = _base;
         baseDecimals = IERC20Metadata(_base).decimals();
@@ -100,24 +93,4 @@ contract PhuturePriceOracle is IPhuturePriceOracle, BaseFeeGasPriceOracle {
         require(priceOracleOf[_asset] != address(0), "PhuturePriceOracle: UNSET");
         return IPriceOracle(priceOracleOf[_asset]).lastAssetPerBaseInUQ(_asset);
     }
-
-    /// @inheritdoc ERC165Upgradeable
-    function supportsInterface(bytes4 _interfaceId) public view virtual override returns (bool) {
-        return
-            _interfaceId == type(IPhuturePriceOracle).interfaceId ||
-            _interfaceId == type(IPriceOracle).interfaceId ||
-            super.supportsInterface(_interfaceId);
-    }
-
-    /// @inheritdoc UUPSUpgradeable
-    function _authorizeUpgrade(address _newImpl) internal view override onlyRole(ASSET_MANAGER_ROLE) {
-        bytes4[] memory interfaceIds = new bytes4[](2);
-        interfaceIds[0] = type(IPriceOracle).interfaceId;
-        interfaceIds[1] = type(IPhuturePriceOracle).interfaceId;
-        require(_newImpl.supportsAllInterfaces(interfaceIds), "PhuturePriceOracle: INTERFACE");
-
-        super._authorizeUpgrade(_newImpl);
-    }
-
-    uint256[48] private __gap;
 }

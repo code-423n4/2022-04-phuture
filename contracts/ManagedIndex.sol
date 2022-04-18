@@ -3,7 +3,7 @@
 pragma solidity >=0.8.7;
 
 import "./interfaces/IManagedIndex.sol";
-import "./interfaces/IManagedIndexFactory.sol";
+import "./interfaces/IIndexFactory.sol";
 import "./interfaces/IManagedIndexReweightingLogic.sol";
 
 import "./BaseIndex.sol";
@@ -46,7 +46,7 @@ contract ManagedIndex is IManagedIndex, BaseIndex {
                 IAccessControl(registry).hasRole(REWEIGHT_INDEX_ROLE, msg.sender),
             "ManagedIndex: FORBIDDEN"
         );
-        (bool success, bytes memory data) = IManagedIndexFactory(factory).reweightingLogic().delegatecall(
+        (bool success, bytes memory data) = IIndexFactory(factory).reweightingLogic().delegatecall(
             abi.encodeWithSelector(IManagedIndexReweightingLogic.reweight.selector, _updatedAssets, _updatedWeights)
         );
         if (!success) {

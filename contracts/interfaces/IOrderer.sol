@@ -13,28 +13,6 @@ interface IOrderer {
         Buy
     }
 
-    event PlaceOrder(address creator, uint id);
-    event UpdateOrder(uint id, address asset, uint share, bool isSellSide);
-    event CompleteOrder(uint id, address sellAsset, uint soldShares, address buyAsset, uint boughtShares);
-
-    /// @notice Initializes orderer with the given params
-    /// @param _registry Index registry address
-    /// @param _orderLifetime Order lifetime in which it stays valid
-    /// @param _maxAllowedPriceImpactInBP Max allowed exchange price impact
-    function initialize(
-        address _registry,
-        uint64 _orderLifetime,
-        uint16 _maxAllowedPriceImpactInBP
-    ) external;
-
-    /// @notice Sets max allowed exchange price impact
-    /// @param _maxAllowedPriceImpactInBP Max allowed exchange price impact
-    function setMaxAllowedPriceImpactInBP(uint16 _maxAllowedPriceImpactInBP) external;
-
-    /// @notice Sets order lifetime in which it stays valid
-    /// @param _orderLifetime Order lifetime in which it stays valid
-    function setOrderLifetime(uint64 _orderLifetime) external;
-
     /// @notice Places order to orderer queue and returns order id
     /// @return Order id of the placed order
     function placeOrder() external returns (uint);

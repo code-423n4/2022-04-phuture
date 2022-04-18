@@ -7,11 +7,6 @@ import "./IPriceOracle.sol";
 /// @title Phuture price oracle interface
 /// @notice Aggregates all price oracles and works with them through IPriceOracle interface
 interface IPhuturePriceOracle is IPriceOracle {
-    /// @notice Initializes price oracle
-    /// @param _registry Index registry address
-    /// @param _base Base asset
-    function initialize(address _registry, address _base) external;
-
     /// @notice Assigns given oracle to specified asset. Then oracle will be used to manage asset price
     /// @param _asset Asset to register
     /// @param _oracle Oracle to assign
