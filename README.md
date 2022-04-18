@@ -7,8 +7,6 @@
 - Starts April 19, 2022 00:00 UTC
 - Ends April 21, 2022 23:59 UTC
 
-This repo will be made public before the start of the contest. (C4 delete this line when made public)
-
 | Glossary| |
 |-------------------------------|------------------------------------------------------|
 | BP | Base points = 10000 - not to be confused with basis points |
