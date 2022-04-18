@@ -93,7 +93,6 @@ All the contracts in this section are to be reviewed. Any contracts not in this 
 - Reweighting logic - how buy/sell order deltas are calculated
 - vToken - NAV calculation logic during minting
 - vToken - shareChange calculation
-- vToken - updateDeposit deposition logic that tracks target utilisation of liquidity on yearn
 
 # Areas of concern for Wardens
 We would like wardens to focus on any core functional logic, boundary case errors or similar issues which could be utilized by an attacker to take funds away from clients who have funds deposited in the protocol. That said any errors may be submitted by wardens for review and potential reward as per the normal issue impact prioritization. Gas optimizations are welcome but not the main focus of this contest and thus at most 10% of the contest reward will be allocated to gas optimizations. For gas optimizations the most important flows are client deposit and withdrawal flows.
