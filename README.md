@@ -34,7 +34,7 @@ The protocol's base curreency is USDC and as such the net asset value of each in
 
 
 # Smart Contracts
-> Each of the contracts, interfaces and libraries in the [/contracts](/contracts) folder is documented in detail with NatSpec. <br />
+> Each of the contracts, interfaces and libraries in the [/contracts](https://github.com/code-423n4/2022-04-phuture/blob/main/contracts) folder is documented in detail with NatSpec. <br />
 > We recommend that you familiarize yourself with each of the files before or during the contest.
 
 
