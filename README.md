@@ -1,4 +1,4 @@
-# Phuture Finance contest details
+# Phuture contest details
 - $27,000 USDC main award pot
 - $3,000 USDC gas optimization award pot
 - Join [C4 Discord](https://discord.gg/code4rena) to register
